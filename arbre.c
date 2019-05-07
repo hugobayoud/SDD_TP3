@@ -1,4 +1,5 @@
 #include "arbre.h"
+#include "pile.h"
  
 noeud_t** recherche(char **mot, noeud_t **arbre){
     noeud_t **prec = arbre;
@@ -47,13 +48,23 @@ void insertion(char *mot, noeud_t **arbre){
 
 void afficherArbre(noeud_t *arbre) {
     noeud_t *cour = arbre;
-
-    printf("\nracines de l'arbre :");
-    while (cour != NULL) {
-        printf("%c", cour->lettre);
-        cour = cour->lh;
-    }
-    printf("\n");
+    pile_t *pile = initPile(MAX);
+    int run = 1;
+    while (run) {
+        while (cour != NULL) {
+            empiler(pile, cour);
+            if (cour->lettre >= 65 && cour->lettre <= 90) {
+                afficherPileArbre(pile);
+            }
+            cour = (cour->lv);
+        }
+        if (!pileEstVide(pile)) {
+            cour = depiler(pile);
+            cour = cour->lh;
+        } else {
+            run = 0;
+        }
+    }   
 }
  
 noeud_t* creerNoeud(char lettre){
