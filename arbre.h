@@ -19,5 +19,8 @@ noeud_t** recherche(char **mot, noeud_t **arbre);
 void insertion(char *mot, noeud_t **arbre);
 noeud_t* creerNoeud(char lettre);
 void afficherArbre(noeud_t *arbre);
+void rechercheMotif(noeud_t *arbre, char *motif);
+void afficherArbreMotif(noeud_t *arbre, char *motif);
+void libererArbre(noeud_t *arbre);
  
 #endif
