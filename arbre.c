@@ -14,7 +14,7 @@ noeud_t** recherche(char **mot, noeud_t **arbre){
         if (cour != NULL && tolower(cour->lettre) == **mot) {
             *mot = (*mot + 1);
             if (**mot == '\0') cour->lettre = toupper(cour->lettre); /*Si le mot est fini on met une majuscule a la lettre deja existante*/
-            printf("current letter : %c\n", cour->lettre);
+            /*printf("current letter : %c\n", cour->lettre);*/
             prec = &(cour->lv);
             cour = cour->lv;
         }else {
@@ -30,7 +30,7 @@ void insertion(char *mot, noeud_t **arbre){
     noeud_t **prec = recherche(&mot, arbre);
 
     while (*mot != '\0') {
-        printf("writing letter : %c\n", *mot);
+        /*printf("writing letter : %c\n", *mot);*/
 
         tmp = *prec;                                    /*On sauvegarde un eventuel lien (tmp pointe vers Null si il n'y en a pas)*/
         *prec = creerNoeud(*mot);
@@ -49,6 +49,9 @@ void insertion(char *mot, noeud_t **arbre){
 void afficherArbre(noeud_t *arbre) {
     noeud_t *cour = arbre;
     pile_t *pile = initPile(MAX);
+
+    printf("\n       Affichage des mots du dictionnaire\n");
+
     int run = 1;
     while (run) {
         while (cour != NULL) {
@@ -64,7 +67,40 @@ void afficherArbre(noeud_t *arbre) {
         } else {
             run = 0;
         }
-    }   
+    }
+    libererPile(pile);  
+}
+
+void rechercheMotif(noeud_t *arbre, char *motif) {
+    char *tmp = motif;
+    noeud_t **prec = recherche(&motif, &arbre);
+    afficherArbreMotif(*prec, tmp);
+}
+
+void afficherArbreMotif(noeud_t *arbre, char *motif) {
+    noeud_t *cour = arbre;
+    pile_t *pile = initPile(MAX);
+
+    printf("\n       Affichage des mots commençant par le motif : %s\n", motif);
+
+    int run = 1;
+    while (run) {
+        while (cour != NULL) {
+            empiler(pile, cour);
+            if (cour->lettre >= 65 && cour->lettre <= 90) {
+                printf("%s", motif);
+                afficherPileArbre(pile);
+            }
+            cour = (cour->lv);
+        }
+        if (!pileEstVide(pile)) {
+            cour = depiler(pile);
+            cour = cour->lh;
+        } else {
+            run = 0;
+        }
+    }
+    libererPile(pile); 
 }
  
 noeud_t* creerNoeud(char lettre){
@@ -73,4 +109,26 @@ noeud_t* creerNoeud(char lettre){
     noeud->lh = NULL;
     noeud->lv = NULL;
     return noeud;
+}
+
+void libererArbre(noeud_t *arbre) {
+    noeud_t *cour = arbre;
+    noeud_t *tmp = NULL;
+    pile_t *pile = initPile(MAX);
+    int run = 1;
+    while (run) {
+        while (cour != NULL) {
+            empiler(pile, cour);
+            cour = (cour->lv);            
+        }
+        if (!pileEstVide(pile)) {
+            cour = depiler(pile);
+            tmp = cour;
+            cour = cour->lh;
+            free(tmp);
+        } else {
+            run = 0;
+        }
+    }
+    libererPile(pile); 
 }
