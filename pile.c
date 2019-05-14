@@ -19,9 +19,13 @@
 /* ------------------------------------------------------------------*/
 pile_t* initPile(int taille){
     pile_t* pile = malloc(sizeof(pile_t));    /*alloue la mémoire nécessaire pour la pile*/
-    pile->taille = taille;
+    if (pile != NULL) {
+        pile->taille = taille;
     pile->nbelt = 0;
     pile->base = malloc(taille*sizeof(type)); /*alloue la mémoire pour le tableau d'elements de la pile*/
+    } else {
+        printf("erreur malloc pile\n");
+    }
     return pile;
 }
 
@@ -135,18 +139,6 @@ type depiler(pile_t* pile){
 /* Lexique :                                                         */
 /* -i : variable d'incrémentation de la boucle for                   */
 /* ------------------------------------------------------------------*/
-/*void afficherPileInt(pile_t* pile){
-    if(!pileEstVide(pile)){
-        int i;
-        printf("Affichage de la pile :\n");
-   	    for (i = 0; i < pile->nbelt; i++){
-            printf("element %d : %d\n", i, pile->base[i]);
-        }
-    }else{
-	printf("la pile est vide\n");
-    }
-}*/
-
 void afficherPileArbre(pile_t* pile){
     int i;
     for (i = 0; i < pile->nbelt; i++){
