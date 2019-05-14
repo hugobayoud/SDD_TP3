@@ -1,4 +1,4 @@
-FLAGS = #-Wall -Wextra -ansi -pedantic -g
+FLAGS = -Wall -Wextra -ansi -pedantic -g
 
 prog: main.o arbre.o pile.o
 	gcc -o prog main.o arbre.o pile.o ${FLAGS}
