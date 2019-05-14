@@ -3,9 +3,10 @@
 int main(void){
     noeud_t *arbre = NULL;
     char mot[MAX];
-
     FILE *fic;
+
     fic = fopen("dico.txt", "r");
+
     if (fic == NULL) {
         printf("Erreur ouverture du fichier\n");
     }else {
@@ -20,8 +21,7 @@ int main(void){
 
     afficherArbre(arbre);
 
-    printf("\n\n");
-    rechercheMotif(arbre, "el");
+    rechercheMotif(arbre, "arbres");
 
     libererArbre(arbre);
     return 0;
